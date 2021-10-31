@@ -1,13 +1,13 @@
 ##  Copy the linux command from http://remotedesktop.google.com/headless  ##
+import os,subprocess
+os.system("apt-get install sudo -y")
+os.system("sudo apt-get install wget")
 CRP1 = 'DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AX4XfWgYC_iLgPjKQMEqXdA827CE9ju0hqbMo5L-A0AF2Xqo09rmruMr3tyVb05k25r9cg" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)'
 Pin = 123456 ## rdp pin
 Name = "RDP"    ## rdp name
-import os,subprocess
 username = "user" 
 password = "root"
 print("Creating User and Setting it up")
-os.system("apt-get install sudo -y")
-os.system("sudo apt-get install wget")
 os.system(f"useradd -m {username}")
 os.system(f"adduser {username} sudo")
 os.system(f"echo '{username}:{password}' | sudo chpasswd")
