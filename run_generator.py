@@ -1,114 +1,29 @@
-##  Copy the linux command from http://remotedesktop.google.com/headless  ##
-import os,subprocess
-os.system("apt-get install sudo -y")
-os.system("sudo apt-get install wget")
-CRP1 = 'DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AX4XfWgYC_iLgPjKQMEqXdA827CE9ju0hqbMo5L-A0AF2Xqo09rmruMr3tyVb05k25r9cg" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)'
-Pin = 123456 ## rdp pin
-Name = "RDP"    ## rdp name
-username = "user" 
-password = "root"
-print("Creating User and Setting it up")
-os.system(f"useradd -m {username}")
-os.system(f"adduser {username} sudo")
-os.system(f"echo '{username}:{password}' | sudo chpasswd")
-os.system("sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd")
-print("User Created and Configured")
-CRP = CRP1.replace("$(hostname)",Name)
-class CRD:
-    def __init__(self):
-        os.system("apt update")
-        self.installCRD()
-        self.installDesktopEnvironment()
-        self.installGoogleChorme()
-        self.installingEdge()
-        self.installingBrave()
-        self.installwine()
-        self.installingOBS()
-        self.finish()
-    @staticmethod
-    def installCRD():
-        print("Installing Chrome Remote Desktop")
-        subprocess.run(['wget', 'https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb'], stdout=subprocess.PIPE)
-        subprocess.run(['dpkg', '--install', 'chrome-remote-desktop_current_amd64.deb'], stdout=subprocess.PIPE)
-        subprocess.run(['apt', 'install', '--assume-yes', '--fix-broken'], stdout=subprocess.PIPE)
-
-    @staticmethod
-    def installDesktopEnvironment():
-        print("Installing Desktop Environment")
-        os.system("export DEBIAN_FRONTEND=noninteractive")
-        os.system("apt install --assume-yes xfce4 desktop-base xfce4-terminal")
-        os.system("bash -c 'echo \"exec /etc/X11/Xsession /usr/bin/xfce4-session\" > /etc/chrome-remote-desktop-session'")
-        os.system("apt remove --assume-yes gnome-terminal")
-        os.system("apt install --assume-yes xscreensaver")
-        os.system("systemctl disable lightdm.service")
-
-    @staticmethod
-    def installGoogleChorme():
-        print("Installing Google Chrome")
-        subprocess.run(["wget", "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(["dpkg", "--install", "google-chrome-stable_current_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(['apt', 'install', '--assume-yes', '--fix-broken'], stdout=subprocess.PIPE)
-    
-    @staticmethod
-    def installingEdge():
-        print("Installing edge Browser")
-        subprocess.run(["wget", "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-dev/microsoft-edge-dev_93.0.926.1-1_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(["dpkg", "--install", "microsoft-edge-dev_93.0.926.1-1_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(['apt', 'install', '--assume-yes', '--fix-broken'], stdout=subprocess.PIPE)
-    
-    @staticmethod
-    def installingBrave():
-        print("Installing Brave Browser")
-        subprocess.run(["wget", "https://github.com/brave/brave-browser/releases/download/v1.28.31/brave-browser-nightly_1.28.31_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(["dpkg", "--install", "brave-browser-nightly_1.28.31_amd64.deb"], stdout=subprocess.PIPE)
-        subprocess.run(['apt', 'install', '--assume-yes', '--fix-broken'], stdout=subprocess.PIPE)
-    
-    @staticmethod
-    def installwine():
-        print ("installing wine")
-         os.system("sudo dpkg --add-architecture i386")
-         os.system("sudo apt update")
-         os.system("apt-get install -y wine32")
-         os.system("sudo apt -y install gnupg2 software-properties-common")
-         os.system("wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add ")
-         os.system("sudo apt-add-repository https://dl.winehq.org/wine-builds/debian/")
-         os.system("sudo apt update")
-         wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0/Release.key | sudo apt-key add -    
-         echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0 ./" | sudo tee /etc/apt/sources.list.d/wine-obs.list
-         os.system("sudo apt-get update")
-         os.system("sudo apt install --install-recommends winehq-stable")
-         wine --version
-
-    @staticmethod
-    def installingOBS():
-        print("Installing OBS-STUDIO")
-        package = "obs-studio"
-         apt --fix-broken install > /dev/null 2>&1
-         killall apt > /dev/null 2>&1
-         rm /var/lib/dpkg/lock-frontend
-         dpkg --configure -a > /dev/null 2>&1
-         apt-get  install -o Dpkg::Options::="--force-confold" --no-install-recommends -y $package
-         dpkg --configure -a > /dev/null 2>&1
-         apt  update > /dev/null 2>&1
-         apt install $package > /dev/null 2>&1
-
-    @staticmethod
-    def finish():
-        print("Finalizing")
-        os.system(f"adduser {username} chrome-remote-desktop")
-        command = f"{CRP} --pin={Pin}"
-        os.system(f"su - {username} -c '{command}'")
-        os.system("service chrome-remote-desktop start")
-        print("Finished Succesfully")
-
-try:
-    if username:
-        if CRP == "":
-            print("Please enter authcode from the given link")
-        elif len(str(Pin)) < 6:
-            print("Enter a pin more or equal to 6 digits")
-        else:
-            CRD()
-except NameError as e:
-    print("username variable not found")
-    print("Create a User First")
+#CODE
+#Generate root password
+import random, string
+password = ‘’.join(random.choice(string.ascii_letters + string.digits) for i in range(20))
+#Download ngrok
+wget -q -c -nc https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip -qq -n ngrok-stable-linux-amd64.zip
+#Setup sshd
+apt-get install -qq -o=Dpkg::Use-Pty=0 openssh-server pwgen > /dev/null
+#Set root password
+echo root:$password | chpasswd
+mkdir -p /var/run/sshd
+echo “PermitRootLogin yes” >> /etc/ssh/sshd_config
+echo “PasswordAuthentication yes” >> /etc/ssh/sshd_config
+echo “LD_LIBRARY_PATH=/usr/lib64-nvidia” >> /root/.bashrc
+echo “export LD_LIBRARY_PATH” >> /root/.bashrc
+#Run sshd
+get_ipython().system_raw(‘/usr/sbin/sshd -D &’)
+#Ask token
+print(“20HAtJrUpCjbC7NnzlIuBclrGVx_5VHCWTuWXGXkuoxn2q4U6")
+import getpass
+authtoken = getpass.getpass()
+#Create tunnel
+get_ipython().system_raw(‘./ngrok authtoken $authtoken && ./ngrok tcp 22 &’)
+#Print root password
+print(“Root password: {}”.format(password))
+#Get public address
+curl -s http://localhost:4040/api/tunnels | python3 -c \
+“import sys, json; print(json.load(sys.stdin)[‘tunnels’][0][‘public_url’])”
