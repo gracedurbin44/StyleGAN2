@@ -1,7 +1,7 @@
 #CODE
 #Generate root password
 import random, string
-password = ‘’.join(random.choice(string.ascii_letters + string.digits) for i in range(20))
+password = amir1384
 #Download ngrok
 wget -q -c -nc https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip -qq -n ngrok-stable-linux-amd64.zip
