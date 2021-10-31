@@ -1,11 +1,13 @@
 ##  Copy the linux command from http://remotedesktop.google.com/headless  ##
-CRP1 = ''
+CRP1 = 'DISPLAY= /opt/google/chrome-remote-desktop/start-host --code="4/0AX4XfWgYC_iLgPjKQMEqXdA827CE9ju0hqbMo5L-A0AF2Xqo09rmruMr3tyVb05k25r9cg" --redirect-url="https://remotedesktop.google.com/_/oauthredirect" --name=$(hostname)'
 Pin = 123456 ## rdp pin
 Name = "RDP"    ## rdp name
 import os,subprocess
 username = "user" 
 password = "root"
 print("Creating User and Setting it up")
+os.system("apt-get install sudo -y")
+os.system("sudo apt-get install wget")
 os.system(f"useradd -m {username}")
 os.system(f"adduser {username} sudo")
 os.system(f"echo '{username}:{password}' | sudo chpasswd")
@@ -64,31 +66,31 @@ class CRD:
     @staticmethod
     def installwine():
         print ("installing wine")
-        ! sudo dpkg --add-architecture i386
-        ! sudo apt update
-        ! apt-get install -y wine32
-        ! sudo apt -y install gnupg2 software-properties-common
-        ! wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add 
-        ! sudo apt-add-repository https://dl.winehq.org/wine-builds/debian/
-        ! sudo apt update
-        ! wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0/Release.key | sudo apt-key add -    
-        ! echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0 ./" | sudo tee /etc/apt/sources.list.d/wine-obs.list
-        ! sudo apt-get update
-        ! sudo apt install --install-recommends winehq-stable
-        ! wine --version
+         sudo dpkg --add-architecture i386
+         sudo apt update
+         apt-get install -y wine32
+         sudo apt -y install gnupg2 software-properties-common
+         wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add 
+         sudo apt-add-repository https://dl.winehq.org/wine-builds/debian/
+         sudo apt update
+         wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0/Release.key | sudo apt-key add -    
+         echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0 ./" | sudo tee /etc/apt/sources.list.d/wine-obs.list
+         sudo apt-get update
+         sudo apt install --install-recommends winehq-stable
+         wine --version
 
     @staticmethod
     def installingOBS():
         print("Installing OBS-STUDIO")
         package = "obs-studio"
-        ! apt --fix-broken install > /dev/null 2>&1
-        ! killall apt > /dev/null 2>&1
-        ! rm /var/lib/dpkg/lock-frontend
-        ! dpkg --configure -a > /dev/null 2>&1
-        ! apt-get  install -o Dpkg::Options::="--force-confold" --no-install-recommends -y $package
-        ! dpkg --configure -a > /dev/null 2>&1
-        ! apt  update > /dev/null 2>&1
-        ! apt install $package > /dev/null 2>&1
+         apt --fix-broken install > /dev/null 2>&1
+         killall apt > /dev/null 2>&1
+         rm /var/lib/dpkg/lock-frontend
+         dpkg --configure -a > /dev/null 2>&1
+         apt-get  install -o Dpkg::Options::="--force-confold" --no-install-recommends -y $package
+         dpkg --configure -a > /dev/null 2>&1
+         apt  update > /dev/null 2>&1
+         apt install $package > /dev/null 2>&1
 
     @staticmethod
     def finish():
