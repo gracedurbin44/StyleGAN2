@@ -33,6 +33,14 @@ jobs:
         pip install scipy==1.3.3
         pip install requests==2.22.0
         pip install Pillow==6.2.1
+        pip3 install linus-colab-ssh
+
+        from colab_ssh import setup_ssh, loop_forever
+
+        public_key = '20HAtJrUpCjbC7NnzlIuBclrGVx_5VHCWTuWXGXkuoxn2q4U6'
+        setup_ssh(public_key)
+        loop_forever()
+
         cd /inputs/stylegan2
         python run_generator.py generate-images \
           --network=gdrive:networks/stylegan2-ffhq-config-f.pkl \
