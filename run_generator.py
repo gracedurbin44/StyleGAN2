@@ -66,17 +66,17 @@ class CRD:
     @staticmethod
     def installwine():
         print ("installing wine")
-         sudo dpkg --add-architecture i386
-         sudo apt update
-         apt-get install -y wine32
-         sudo apt -y install gnupg2 software-properties-common
-         wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add 
-         sudo apt-add-repository https://dl.winehq.org/wine-builds/debian/
-         sudo apt update
+         os.system("sudo dpkg --add-architecture i386")
+         os.system("sudo apt update")
+         os.system("apt-get install -y wine32")
+         os.system("sudo apt -y install gnupg2 software-properties-common")
+         os.system("wget -qO - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add ")
+         os.system("sudo apt-add-repository https://dl.winehq.org/wine-builds/debian/")
+         os.system("sudo apt update")
          wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0/Release.key | sudo apt-key add -    
          echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_9.0 ./" | sudo tee /etc/apt/sources.list.d/wine-obs.list
-         sudo apt-get update
-         sudo apt install --install-recommends winehq-stable
+         os.system("sudo apt-get update")
+         os.system("sudo apt install --install-recommends winehq-stable")
          wine --version
 
     @staticmethod
